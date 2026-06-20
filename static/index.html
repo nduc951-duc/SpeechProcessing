@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BiGRU Speaker ID</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Speaker Identification</p>
+          <h1>BiGRU Attention / 100 speakers</h1>
+        </div>
+        <div id="service-status" class="service-status" aria-live="polite">Connecting</div>
+      </header>
+
+      <section class="workspace" aria-label="Speaker prediction workspace">
+        <aside class="model-panel">
+          <p class="panel-label">Loaded model</p>
+          <strong>best_bigru_attention_100</strong>
+          <dl class="spec-list">
+            <div><dt>Audio</dt><dd>Mono, 16 kHz</dd></div>
+            <div><dt>Features</dt><dd>40 MFCC + Delta + Delta-Delta</dd></div>
+            <div><dt>Input</dt><dd>200 x 120</dd></div>
+            <div><dt>Encoder</dt><dd>2-layer BiGRU, 256 hidden</dd></div>
+            <div><dt>Classes</dt><dd>100 VCTK speakers</dd></div>
+          </dl>
+        </aside>
+
+        <section class="prediction-panel">
+          <div class="upload-row">
+            <label class="file-picker" for="audio-file">
+              <span class="upload-icon" aria-hidden="true">+</span>
+              <span>Choose audio</span>
+              <input id="audio-file" type="file" accept="audio/wav,audio/mpeg,audio/flac,audio/ogg,audio/mp4,.wav,.mp3,.flac,.ogg,.m4a" />
+            </label>
+            <button id="predict-button" class="predict-button" type="button" disabled>Identify speaker</button>
+            <button id="reset-button" class="icon-button" type="button" title="Clear selected audio" aria-label="Clear selected audio" disabled>&#8635;</button>
+          </div>
+
+          <div id="file-summary" class="file-summary" aria-live="polite">No audio selected</div>
+          <audio id="audio-preview" controls hidden></audio>
+          <canvas id="waveform" class="waveform" width="760" height="120" hidden aria-label="Selected audio waveform"></canvas>
+
+          <div id="result-empty" class="empty-state">Select one audio recording to run speaker identification.</div>
+          <section id="result-content" class="result-content" hidden aria-live="polite">
+            <div class="primary-result">
+              <p class="panel-label">Predicted speaker</p>
+              <div class="speaker-line"><strong id="speaker-name">-</strong><span id="confidence">-</span></div>
+            </div>
+            <div>
+              <p class="panel-label">Top predictions</p>
+              <ol id="top-predictions" class="prediction-list"></ol>
+            </div>
+          </section>
+          <p id="error-message" class="error-message" role="alert" hidden></p>
+        </section>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

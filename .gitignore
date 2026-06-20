@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.pytest_cache/
+uploads/
+artifacts/
+demo_test_set_100/
+demo_test_set_100 (1)/
+VCTK-Corpus/
+*.wav
+*.mp3
+*.flac

@@ -1,0 +1,72 @@
+:root {
+  color: #17212b;
+  background: #f6f8fa;
+  font-family: "Manrope", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; min-width: 320px; }
+
+button, input { font: inherit; }
+
+.app-shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 52px 0 72px; }
+
+.topbar { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-bottom: 26px; border-bottom: 1px solid #d8e0e7; }
+
+h1 { margin: 4px 0 0; font-size: 28px; line-height: 1.2; letter-spacing: 0; }
+
+.eyebrow, .panel-label { margin: 0; color: #667785; font-family: "DM Mono", monospace; font-size: 12px; letter-spacing: 0; text-transform: uppercase; }
+
+.service-status { padding: 7px 10px; border: 1px solid #b7c6d1; color: #40596a; font-family: "DM Mono", monospace; font-size: 12px; white-space: nowrap; }
+.service-status.ready { border-color: #8bc5af; color: #126b4e; background: #edf9f3; }
+.service-status.error { border-color: #e9a9a9; color: #ae3232; background: #fff2f2; }
+
+.workspace { display: grid; grid-template-columns: minmax(245px, 0.8fr) minmax(0, 2fr); gap: 0; margin-top: 32px; border: 1px solid #d8e0e7; background: #fff; }
+
+.model-panel { padding: 28px; border-right: 1px solid #d8e0e7; background: #f0f5f7; }
+.model-panel strong { display: block; margin: 9px 0 26px; color: #164d70; font-family: "DM Mono", monospace; font-size: 14px; overflow-wrap: anywhere; }
+
+.spec-list { margin: 0; }
+.spec-list div { display: grid; gap: 4px; padding: 13px 0; border-top: 1px solid #d5e0e5; }
+.spec-list dt { color: #607382; font-family: "DM Mono", monospace; font-size: 12px; }
+.spec-list dd { margin: 0; font-size: 14px; line-height: 1.5; }
+
+.prediction-panel { min-height: 420px; padding: 28px; }
+.upload-row { display: flex; align-items: center; gap: 10px; }
+
+.file-picker, .predict-button, .icon-button { min-height: 42px; border: 1px solid #a7b7c2; border-radius: 6px; cursor: pointer; }
+.file-picker { display: inline-flex; align-items: center; gap: 9px; padding: 0 14px; color: #143e5c; background: #fff; font-weight: 700; }
+.file-picker:hover { background: #edf6fa; }
+.file-picker input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.upload-icon { display: grid; width: 18px; height: 18px; place-items: center; border: 1px solid currentColor; border-radius: 50%; line-height: 1; }
+.predict-button { padding: 0 16px; border-color: #126b75; color: #fff; background: #126b75; font-weight: 700; }
+.predict-button:hover:not(:disabled) { background: #0d5660; }
+.predict-button:disabled, .icon-button:disabled { cursor: not-allowed; opacity: 0.48; }
+.icon-button { width: 42px; color: #355266; background: #fff; font-size: 20px; }
+.icon-button:hover:not(:disabled) { background: #eef3f6; }
+
+.file-summary { min-height: 22px; margin: 20px 0 12px; color: #506674; font-family: "DM Mono", monospace; font-size: 13px; overflow-wrap: anywhere; }
+audio { width: 100%; height: 38px; }
+.waveform { width: 100%; height: 92px; margin-top: 12px; border: 1px solid #dce4e9; background: #f4f8f9; }
+.empty-state { display: grid; min-height: 220px; margin-top: 24px; place-items: center; border-top: 1px solid #dce4e9; color: #667785; text-align: center; font-size: 15px; }
+
+.result-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 0.9fr); gap: 32px; margin-top: 30px; padding-top: 26px; border-top: 1px solid #dce4e9; }
+.speaker-line { display: flex; align-items: baseline; gap: 14px; margin-top: 9px; }
+.speaker-line strong { color: #0b3d5c; font-family: "DM Mono", monospace; font-size: 34px; letter-spacing: 0; }
+.speaker-line span { color: #147251; font-family: "DM Mono", monospace; font-size: 15px; }
+.prediction-list { margin: 10px 0 0; padding: 0; list-style: none; }
+.prediction-list li { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid #e1e8ec; font-family: "DM Mono", monospace; font-size: 13px; }
+.rank { color: #738692; }.probability { color: #147251; }
+.error-message { margin: 20px 0 0; color: #aa3131; font-size: 14px; }
+
+@media (max-width: 760px) {
+  .app-shell { width: min(100% - 28px, 560px); padding-top: 28px; }
+  .topbar { align-items: start; flex-direction: column; gap: 16px; }
+  h1 { font-size: 24px; }
+  .workspace { grid-template-columns: 1fr; }
+  .model-panel { border-right: 0; border-bottom: 1px solid #d8e0e7; }
+  .upload-row { flex-wrap: wrap; }
+  .prediction-panel { min-height: 0; padding: 22px; }
+  .result-content { grid-template-columns: 1fr; gap: 28px; }
+}
