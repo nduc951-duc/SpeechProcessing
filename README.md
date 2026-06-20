@@ -1,59 +1,51 @@
 # BiGRU Attention Speaker Identification
 
-Web demo and training code for **closed-set speaker identification** on 100 speakers from the VCTK corpus. The repository intentionally contains one model only: `best_bigru_attention_100.pth`, a 2-layer bidirectional GRU with temporal attention.
+A web app for identifying one of 100 VCTK speakers. Upload a recording and it returns the predicted speaker plus the five most likely results.
 
-The web application accepts one recording and returns the most likely speaker plus the top five speaker probabilities. It is designed for the 100 speakers stored in the checkpoint; it cannot identify an unseen person as a new class.
+The included model is `models/best_bigru_attention_100.pth`. It is a **closed-set** model: it only recognizes the 100 speakers used during training, not a completely new person.
 
-## Project layout
+## Run it — one command (Windows)
 
-```text
-SpeechProcessing/
-|-- app.py                    # FastAPI server and prediction endpoints
-|-- audio_features.py         # Shared preprocessing implementation
-|-- model.py                  # BiGRU + Attention definition
-|-- train.py                  # Training, validation and test evaluation
-|-- models/
-|   `-- best_bigru_attention_100.pth
-|-- static/                   # Browser interface
-|-- requirements.txt
-`-- README.md
-```
+Requirements: Windows PowerShell and Python 3.10–3.13. Install Python from [python.org](https://www.python.org/downloads/) and enable **Add Python to PATH** during installation.
 
-## Requirements
-
-- Python 3.10, 3.11 or 3.12. Python 3.13 is not supported by the current `librosa` feature stack used by this project.
-- `pip`
-- Optional: NVIDIA GPU with a CUDA-compatible PyTorch install for faster training and inference
-
-Create a virtual environment and install dependencies:
-
-```bash
-python -m venv .venv
-```
-
-Windows PowerShell:
+Open PowerShell in the `SpeechProcessing` folder, then run:
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+powershell -ExecutionPolicy Bypass -File .\run.ps1
 ```
 
-macOS/Linux:
+The command creates `.venv` if needed, installs the packages, checks that the model file exists, and starts the web server. When this line appears:
 
-```bash
-source .venv/bin/activate
-pip install -r requirements.txt
+```text
+Uvicorn running on http://127.0.0.1:8000
 ```
 
-## Run the web demo
+open **http://127.0.0.1:8000** in a browser. Select a WAV, MP3, FLAC, OGG, or M4A file, then click **Identify speaker**. Press `Ctrl+C` in PowerShell to stop the server.
 
-The checkpoint is already included at `models/best_bigru_attention_100.pth`.
+For a different port:
 
-```bash
-uvicorn app:app --host 127.0.0.1 --port 8000
+```powershell
+powershell -ExecutionPolicy Bypass -File .\run.ps1 -Port 8080
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Upload WAV, MP3, FLAC, OGG or M4A audio. The server automatically uses CUDA when PyTorch detects it; otherwise it runs on CPU.
+If PowerShell is already in this folder and permits scripts, the shorter command also works:
+
+```powershell
+.\run.ps1
+```
+
+## Troubleshooting
+
+| Problem | Fix |
+| --- | --- |
+| `Python was not found` | Reinstall Python with **Add Python to PATH**, then reopen PowerShell. |
+| `Model checkpoint was not found` | Confirm `models\best_bigru_attention_100.pth` is present. |
+| `Address already in use` | Stop the older server with `Ctrl+C`, or run with `-Port 8080`. |
+| A prediction fails | Use a real speech recording in one of the supported formats; empty/corrupt files cannot be processed. |
+
+## API (optional)
+
+Once the server is running:
 
 API endpoints:
 
@@ -67,6 +59,27 @@ Example request:
 
 ```bash
 curl -X POST -F "file=@recording.wav" http://127.0.0.1:8000/api/predict
+```
+
+PowerShell equivalent:
+
+```powershell
+curl.exe -X POST -F "file=@recording.wav" http://127.0.0.1:8000/api/predict
+```
+
+## Project layout
+
+```text
+SpeechProcessing/
+|-- run.ps1                   # One-command Windows launcher
+|-- app.py                    # FastAPI server and prediction endpoints
+|-- audio_features.py         # Audio preprocessing
+|-- model.py                  # BiGRU + Attention definition
+|-- train.py                  # Training and test evaluation
+|-- models/
+|   `-- best_bigru_attention_100.pth
+|-- static/                   # Browser interface
+`-- requirements.txt
 ```
 
 ## Dataset format
