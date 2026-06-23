@@ -36,7 +36,8 @@ class BiGRUAttention(nn.Module):
             num_layers=num_layers,
             batch_first=True,
             bidirectional=True,
-            dropout=dropout if num_layers > 1 else 0.0,
+            # The original BiGRU100 training code used 0.3 between GRU layers.
+            dropout=0.3 if num_layers > 1 else 0.0,
         )
         self.attention = Attention(hidden_size * 2)
         self.classifier = nn.Sequential(
